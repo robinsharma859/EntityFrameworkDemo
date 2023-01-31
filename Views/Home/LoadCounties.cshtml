@@ -1,0 +1,74 @@
+﻿
+
+@{
+    ViewBag.Title = "LoadCounties";
+    var result = ViewBag.Countries;
+    var data = ViewBag.State;
+}
+
+<h2>LoadCounties</h2>
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script src="~/Scripts/bootstrap.js"></script>
+<div>
+    <h4>Country</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.Display("Country Name")
+        </dt>
+
+        <dd>
+            <input type="text" id="txt" readonly="readonly" />
+            @*@Html.DropDownList("CountryName", result as List<SelectListItem>, "Select Country", new { @onChange = "selectText(this)" })*@
+            @Html.DropDownList("CountryName", result as List<SelectListItem>, "Select Country")
+
+        </dd>
+
+        <dd>
+
+            @*@Html.DropDownList("GetStates", data as List<SelectListItem>, "Select State");*@
+            @Html.DropDownList("GetStates", new SelectList(string.Empty, "Value", "Text"), "Please select a State", new { style = "width:250px", @class = "dropdown1" })
+
+        </dd>
+
+    </dl>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+        //Dropdownlist Selectedchange event
+        $("#CountryName").change(function () {
+            $("#GetStates").empty();
+            $.ajax({
+                type: 'POST',
+                @*url: "/Home/LoadStates",//'@Url.Action("LoadStates")', // we are calling json method*@
+                url: "/Home/GetStates",//'@Url.Action("LoadStates")', // we are calling json method
+                dataType: 'json',
+
+                data: { id: $("#CountryName").val() },
+               // here we are get value of selected country and passing same value  as inputto json method GetStates.
+              
+                success: function (states) {
+                    
+                    // states contains the JSON formatted list
+                    // of states passed from the controller
+                    $.each(states, function (i, state) {
+                        $("#GetStates").append('<option value="' + state.Value + '">' +
+                            state.Text + '</option>');
+                    // here we are adding option for States
+
+                    });
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve states.' + ex);
+                }
+            });
+            return false;
+        })
+    });
+
+    </script>
+
+</div>
+<p>
+    
+</p>

@@ -1,0 +1,56 @@
+﻿@model BussinessLayer.Models.UploadPicture
+
+@{
+    ViewBag.Title = "UploadImage";
+}
+
+<h2>Please Upload Image</h2>
+
+@using (Html.BeginForm("UploadImage", "Profile", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>UploadPicture</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.UserId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.UserId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.ImageName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.EditorFor(model => model.ImageName, new { htmlAttributes = new { @class = "form-control" } })*@
+                <input type="file"  name="ImageFile"  class="form-control"/>  
+              
+                @Html.ValidationMessageFor(model => model.ImageName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <!--<div class="form-group">-->
+            @*@Html.LabelFor(model => model.ImageFile, htmlAttributes: new { @class = "control-label col-md-2" })*@
+            <!--<div class="col-md-10">
+               
+                <input type="file" id="ImageFile" name="@Model.ImageFile" required="false"  class="form-control"/>
+            </div>
+        </div>-->
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </div>
+
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
