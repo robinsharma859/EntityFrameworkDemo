@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace EntityFrameworkDemo.Controllers
 {
+    [Authorize]
     public class ProfileController : BaseController
     {
         // GET: Profile
